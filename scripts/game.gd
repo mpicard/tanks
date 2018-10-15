@@ -14,12 +14,14 @@ func _ready():
 #    Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
     current_map = $container/viewport/terrain
     camera = $container/viewport/camera
+    var map_size = current_map.map_to_world(current_map.get_used_rect().size)
+    camera.offset = map_size / 2
     viewport = $container/viewport
     viewport.add_child(cursor)
     
 func _input(event):
     if event is InputEventMouseMotion:
-        is_dragging = Input.is_mouse_button_pressed(BUTTON_RIGHT) and not event.is_echo()
+        is_dragging = Input.is_mouse_button_pressed(BUTTON_MIDDLE) and not event.is_echo()
         
         if is_dragging:
             camera.offset -= event.relative * Vector2(camera_zoom, camera_zoom)

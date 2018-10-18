@@ -1,13 +1,15 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scripts/game.gd" type="Script" id=1]
 [ext_resource path="res://ui/interface.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scripts/camera.gd" type="Script" id=3]
-[ext_resource path="res://scenes/terrain.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/terrain.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/cursor.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/camera.tscn" type="PackedScene" id=5]
 
 [node name="game" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="container" type="ViewportContainer" parent="." index="0"]
 
@@ -26,6 +28,9 @@ size_flags_vertical = 1
 stretch = false
 stretch_shrink = 1
 _sections_unfolded = [ "Rect" ]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="interface" parent="container" index="0" instance=ExtResource( 2 )]
 
@@ -62,42 +67,18 @@ shadow_atlas_quad_2 = 3
 shadow_atlas_quad_3 = 4
 _sections_unfolded = [ "Render Target", "Rendering" ]
 
-[node name="camera" type="Camera2D" parent="container/viewport" index="0"]
+[node name="terrain" parent="container/viewport" index="0" instance=ExtResource( 3 )]
 
-anchor_mode = 1
-rotating = false
-current = true
-zoom = Vector2( 1, 1 )
-limit_left = -10000000
-limit_top = -10000000
-limit_right = 10000000
-limit_bottom = 10000000
-limit_smoothed = false
-drag_margin_h_enabled = false
-drag_margin_v_enabled = false
-smoothing_enabled = false
-smoothing_speed = 5.0
-offset_v = 0.0
-offset_h = 0.0
-drag_margin_left = 0.2
-drag_margin_top = 0.2
-drag_margin_right = 0.2
-drag_margin_bottom = 0.2
-editor_draw_screen = true
-editor_draw_limits = false
-editor_draw_drag_margin = false
-script = ExtResource( 3 )
-_sections_unfolded = [ "Editor", "Transform" ]
-zoom_step = 0.25
-zoom_min = 0.5
-zoom_max = 1.0
-zoom_speed = 2.0
+[node name="cursor" parent="container/viewport" index="1" instance=ExtResource( 4 )]
 
-[node name="map_container" type="Node2D" parent="container/viewport" index="1"]
+position = Vector2( 0, 10 )
 
-_sections_unfolded = [ "Transform" ]
+[node name="camera" parent="container/viewport" index="2" instance=ExtResource( 5 )]
 
-[node name="terrain" parent="container/viewport" index="2" instance=ExtResource( 4 )]
+drag_margin_left = 0.7
+drag_margin_top = 0.7
+drag_margin_right = 0.7
+drag_margin_bottom = 0.7
 
 [connection signal="zoom_changed" from="container/viewport/camera" to="." method="on_camera_zoom_changed"]
 

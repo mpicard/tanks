@@ -2,13 +2,12 @@ extends Camera2D
 
 export var zoom_step = 0.5
 export var zoom_min = 0.5
-export var zoom_max = 3.0
+export var zoom_max = 1.0
 export var zoom_speed = 2.0
 
 signal zoom_changed
 
 var zoom_target = 1
-var last_mouse_pos = Vector2(0,0)
 
 func move_towards(current, target, maxdelta):
     if abs(target - current) <= maxdelta:
@@ -16,14 +15,12 @@ func move_towards(current, target, maxdelta):
     return current + sign(target - current) * maxdelta
     
 func _process(delta):
-    var cur_mouse_pos = get_global_mouse_position()
     var new_zoom = move_towards(get_zoom().x, zoom_target, zoom_speed * delta)
     
     if get_zoom().x != zoom_target:
         emit_signal("zoom_changed", zoom_target)
     
     set_zoom(Vector2(new_zoom, new_zoom))
-    last_mouse_pos = get_global_mouse_position()
   
 func _input(event):
     if event is InputEventMouseButton:
